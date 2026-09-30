@@ -1,26 +1,59 @@
 [project]
 name = "build-your-own-agent-stack"
-version = "0.1.0"
-description = "Six weekend projects. Failing tests. No framework. Build the stack the agent loop runs on."
+dynamic = ["version"]
+description = "Six weekend projects. Failing tests. No LangChain."
 readme = "README.md"
 requires-python = ">=3.12"
-license = { text = "MIT" }
-authors = [{ name = "BYO Agent Stack" }]
-keywords = ["agents", "from-scratch", "eval", "sandbox", "permissions"]
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "RawQubit" }]
+keywords = [
+  "agents",
+  "llm",
+  "from-scratch",
+  "eval",
+  "sandbox",
+  "permissions",
+  "memory",
+  "exam",
+]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Education",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Education",
+  "Topic :: Education :: Testing",
+  "Topic :: Software Development :: Testing",
+  "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://github.com/rawqubit/build-your-own-agent-stack"
+Repository = "https://github.com/rawqubit/build-your-own-agent-stack"
+Changelog = "https://github.com/rawqubit/build-your-own-agent-stack/blob/main/CHANGELOG.md"
+Issues = "https://github.com/rawqubit/build-your-own-agent-stack/issues"
 
 [project.optional-dependencies]
 dev = ["pytest>=8.3"]
 
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools.dynamic]
+version = { attr = "agentstack._version.__version__" }
 
 [tool.setuptools.packages.find]
 include = ["agentstack*"]
 
+[tool.setuptools.package-data]
+agentstack = ["py.typed"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q --tb=short"
-markers = [
-    "live: calls a real LLM (skipped unless AGENTSTACK_LIVE=1)",
-]
+norecursedirs = ["solutions", "scripts", "build", "dist"]

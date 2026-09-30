@@ -1,3 +1,4 @@
+# policy/v1 — chapters/03-permissions
 [fs]
 allow = ["./workspace/**", "./workspace/*", "./src/**", "README.md"]
 deny = [".env", "**/.env", "**/*.pem", "**/.ssh/**", "**/id_rsa", "**/secrets/**"]
