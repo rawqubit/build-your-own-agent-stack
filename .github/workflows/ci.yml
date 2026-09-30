@@ -24,8 +24,4 @@ jobs:
           python-version: "3.12"
       - run: python -m pip install -e ".[dev]"
       - name: student stubs must not silently pass
-        run: |
-          if pytest tests/test_01_tools.py; then
-            echo "stubs passed chapter 01 — they should be red on clone"
-            exit 1
-          fi
+        run: python scripts/expect_red.py
