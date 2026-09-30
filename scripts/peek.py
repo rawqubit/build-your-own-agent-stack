@@ -1,4 +1,4 @@
-"""Load PEEK solutions over the student package."""
+"""Install PEEK solutions over the student package."""
 
 from __future__ import annotations
 

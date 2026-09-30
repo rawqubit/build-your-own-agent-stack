@@ -15,7 +15,7 @@ class FileMemory:
         store = Path(path)
         store.parent.mkdir(parents=True, exist_ok=True)
         if not store.exists():
-            store.write_text("{}", encoding="utf-8")
+            store.write_text("{}\n", encoding="utf-8")
 
     def retain(self, key: str, value: str, *, namespace: str, source: str = "") -> None:
         data = self._load()

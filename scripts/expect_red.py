@@ -21,12 +21,16 @@ def main() -> int:
         return 1
     for path in files:
         proc = subprocess.run(
-            [sys.executable, "-m", "pytest", str(path), "-q"],
+            [sys.executable, "-m", "pytest", str(path), "-q", "--tb=no", "--override-ini", "addopts="],
             cwd=ROOT,
             env=env,
+            capture_output=True,
+            text=True,
         )
         if proc.returncode == 0:
             print(f"green {path.name} — stubs must stay red on clone")
+            print(proc.stdout)
+            print(proc.stderr)
             leaked = True
         else:
             print(f"red   {path.name}")
