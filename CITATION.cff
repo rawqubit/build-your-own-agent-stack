@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+title: Build Your Own Agent Stack
+abstract: Six weekend projects. Failing tests. No LangChain.
+message: If you use this exam, cite it as below.
+type: software
+authors:
+  - name: RawQubit
+repository-code: https://github.com/rawqubit/build-your-own-agent-stack
+url: https://github.com/rawqubit/build-your-own-agent-stack
+license: MIT
+version: 1.1.0
+date-released: 2026-09-30
+keywords:
+  - agents
+  - exam
+  - sandbox
+  - eval
