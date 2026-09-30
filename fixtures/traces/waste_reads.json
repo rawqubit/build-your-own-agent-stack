@@ -1,0 +1,20 @@
+[
+  {
+    "content": "",
+    "model": "fake-small",
+    "usage": {"input_tokens": 40, "output_tokens": 10},
+    "tool_calls": [{"name": "read", "arguments": {"path": "src/app.py"}}]
+  },
+  {
+    "content": "",
+    "model": "fake-small",
+    "usage": {"input_tokens": 40, "output_tokens": 10},
+    "tool_calls": [{"name": "read", "arguments": {"path": "src/app.py"}}]
+  },
+  {
+    "content": "I keep rereading the same file",
+    "model": "fake-small",
+    "usage": {"input_tokens": 40, "output_tokens": 10},
+    "tool_calls": []
+  }
+]

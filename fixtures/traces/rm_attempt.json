@@ -1,0 +1,14 @@
+[
+  {
+    "content": "",
+    "model": "fake-small",
+    "usage": {"input_tokens": 60, "output_tokens": 20},
+    "tool_calls": [{"name": "bash", "arguments": {"command": "rm -rf /"}}]
+  },
+  {
+    "content": "refused",
+    "model": "fake-small",
+    "usage": {"input_tokens": 40, "output_tokens": 8},
+    "tool_calls": []
+  }
+]

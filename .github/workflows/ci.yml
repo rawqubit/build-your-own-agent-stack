@@ -1,0 +1,31 @@
+name: ci
+on:
+  push:
+  pull_request:
+jobs:
+  solutions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -e ".[dev]"
+      - name: solutions must stay green
+        env:
+          AGENTSTACK_PEEK: "1"
+        run: pytest
+  stubs-are-red:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -e ".[dev]"
+      - name: student stubs must not silently pass
+        run: |
+          if pytest tests/test_01_tools.py; then
+            echo "stubs passed chapter 01 — they should be red on clone"
+            exit 1
+          fi

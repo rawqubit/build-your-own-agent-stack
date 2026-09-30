@@ -1,0 +1,13 @@
+[fs]
+allow = ["./workspace/**", "./workspace/*", "./src/**", "README.md"]
+deny = [".env", "**/.env", "**/*.pem", "**/.ssh/**", "**/id_rsa", "**/secrets/**"]
+
+[commands]
+allow = ["ls", "cat", "python3", "pytest"]
+deny = ["rm", "sudo", "curl", "wget", "chmod"]
+
+[network]
+allow = []
+
+[secrets]
+patterns = [".env", "*.pem", "id_rsa", "id_ed25519"]

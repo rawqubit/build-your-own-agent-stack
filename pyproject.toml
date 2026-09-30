@@ -1,0 +1,26 @@
+[project]
+name = "build-your-own-agent-stack"
+version = "0.1.0"
+description = "Six weekend projects. Failing tests. No framework. Build the stack the agent loop runs on."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "BYO Agent Stack" }]
+keywords = ["agents", "from-scratch", "eval", "sandbox", "permissions"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.3"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["agentstack*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --tb=short"
+markers = [
+    "live: calls a real LLM (skipped unless AGENTSTACK_LIVE=1)",
+]

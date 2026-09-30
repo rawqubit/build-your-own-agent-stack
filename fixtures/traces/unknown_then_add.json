@@ -1,0 +1,20 @@
+[
+  {
+    "content": "",
+    "model": "fake-small",
+    "usage": {"input_tokens": 80, "output_tokens": 20},
+    "tool_calls": [{"name": "launch_missiles", "arguments": {}}]
+  },
+  {
+    "content": "",
+    "model": "fake-small",
+    "usage": {"input_tokens": 80, "output_tokens": 20},
+    "tool_calls": [{"name": "add", "arguments": {"a": 2, "b": 3}}]
+  },
+  {
+    "content": "2 + 3 = 5",
+    "model": "fake-small",
+    "usage": {"input_tokens": 40, "output_tokens": 10},
+    "tool_calls": []
+  }
+]
