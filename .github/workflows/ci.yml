@@ -2,24 +2,61 @@ name: ci
 on:
   push:
   pull_request:
+permissions:
+  contents: read
 jobs:
-  solutions:
+  contract:
+    name: contract
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: version strings match
+        run: python scripts/check_version.py
+      - name: build the sdist and the wheel
+        run: |
+          python -m pip install build
+          python -m build
+          python scripts/check_sdist.py
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: build-your-own-agent-stack-${{ github.sha }}
+          path: dist/*
+          if-no-files-found: error
+  solutions:
+    name: solutions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.12"
       - run: python -m pip install -e ".[dev]"
+      - name: installed version matches VERSION
+        run: python -c "import agentstack; from pathlib import Path; assert agentstack.__version__ == Path('VERSION').read_text().strip()"
       - name: solutions must stay green
         env:
           AGENTSTACK_PEEK: "1"
         run: pytest
-  stubs-are-red:
+  benchmark:
+    name: benchmark
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -e ".[dev]"
+      - name: reference score is 1.00 and the scorecard matches
+        run: python scripts/benchmark.py
+  stubs-are-red:
+    name: stubs are red
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.12"
       - run: python -m pip install -e ".[dev]"

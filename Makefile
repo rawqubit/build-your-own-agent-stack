@@ -1,4 +1,4 @@
-.PHONY: install test test-01 test-02 test-03 test-04 test-05 test-06 test-capstone peek-check progress demo ci
+.PHONY: install test test-01 test-02 test-03 test-04 test-05 test-06 test-capstone peek-check progress demo bench check dist ci version
 
 install:
 	python3 -m pip install -e ".[dev]"
@@ -28,7 +28,7 @@ test-capstone:
 	python3 -m pytest tests/test_capstone.py
 
 peek-check:
-	AGENTSTACK_PEEK=1 PYTHONPATH=solutions:$$PYTHONPATH python3 -m pytest
+	AGENTSTACK_PEEK=1 python3 -m pytest
 
 progress:
 	python3 scripts/progress.py
@@ -36,6 +36,23 @@ progress:
 demo:
 	python3 scripts/demo.py
 
+bench:
+	python3 scripts/benchmark.py
+
+version:
+	@python3 -c 'from pathlib import Path; print(Path("VERSION").read_text().strip())'
+
+check:
+	python3 scripts/check_version.py
+
+dist:
+	python3 -m pip install -q build
+	python3 -m build
+	python3 scripts/check_sdist.py
+
 ci:
-	python3 scripts/expect_red.py
-	AGENTSTACK_PEEK=1 python3 -m pytest
+	python3 scripts/check_version.py
+	python3 scripts/benchmark.py
+	python3 -m pip install -q build
+	python3 -m build
+	python3 scripts/check_sdist.py

@@ -1,0 +1,14 @@
+include VERSION CHANGELOG.md CITATION.cff README.md BENCHMARK.md LICENSE SECURITY.md CONTRIBUTING.md Makefile pyproject.toml .editorconfig .gitattributes .gitignore
+recursive-include agentstack *.py
+recursive-include agentstack py.typed
+recursive-include tests *.py
+recursive-include chapters *.md
+recursive-include solutions *.py
+recursive-include solutions *.md
+recursive-include fixtures *.toml
+recursive-include fixtures *.md
+recursive-include fixtures *.py
+recursive-include fixtures *.json
+recursive-include scripts *.py
+recursive-include .github *.yml
+recursive-include .github *.md

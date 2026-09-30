@@ -1,0 +1,15 @@
+* text=auto eol=lf
+
+*.py text eol=lf linguist-language=Python
+*.md text eol=lf linguist-documentation
+*.toml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+Makefile text eol=lf
+VERSION text eol=lf
+
+chapters/** linguist-documentation
+fixtures/** linguist-documentation
+CHANGELOG.md linguist-documentation
+CITATION.cff linguist-language=YAML

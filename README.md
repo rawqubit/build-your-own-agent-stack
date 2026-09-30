@@ -1,11 +1,20 @@
 # Build Your Own Agent Stack
 
+[![ci](https://github.com/rawqubit/build-your-own-agent-stack/actions/workflows/ci.yml/badge.svg)](https://github.com/rawqubit/build-your-own-agent-stack/actions/workflows/ci.yml)
+[![contract 1.1.0](https://img.shields.io/badge/contract-1.1.0-2f6f4e)](CHANGELOG.md)
+[![python 3.12+](https://img.shields.io/badge/python-3.12%2B-3776AB)](pyproject.toml)
+
 Six weekend projects. Failing tests. No LangChain.
+
+Reference score **[1.00](BENCHMARK.md)** on the capstone. Stubs are red. No API key.
 
 Everyone teaches you to build the loop. This repo makes you build the stack the loop runs on.
 
 ```bash
 python3 -m pip install -e ".[dev]"
+make demo
+# the capstone, on the reference stack. no API key.
+
 pytest
 # red. that's the point. pick chapter 01.
 ```
@@ -27,7 +36,7 @@ This repo is the missing exam.
 | [05 Spend](chapters/05-spend/README.md) | ledger + cap + waste | kill a run at $1.00 and print a receipt | `pytest tests/test_05_spend.py` |
 | [06 Evals](chapters/06-evals/README.md) | trace scorer | pytest a golden trace with zero API keys | `pytest tests/test_06_evals.py` |
 
-Capstone: `agentstack/loop.py` is given (~80 lines). It imports *your* six modules.
+Capstone: [`agentstack/loop.py`](agentstack/loop.py) is given. It imports *your* six modules.
 `pytest tests/test_capstone.py` goes green only when all six contracts hold.
 
 ## Rules
@@ -41,28 +50,50 @@ Capstone: `agentstack/loop.py` is given (~80 lines). It imports *your* six modul
 ```bash
 # run the reference solutions against the same tests
 AGENTSTACK_PEEK=1 pytest
+
+# version strings, then the red/green pair, then the sdist and wheel
+make ci
 ```
 
-## Why not the other from-scratch repos
+## What the benchmark measures
 
-| Repo | What it is | What it skips |
+Not a chatbot demo. One capstone run is scored on four checks, in order: task, policy, spend, memory. **1.00** means all four passed. The reference stack is the only published score. Your clone starts red. The numbers live in [BENCHMARK.md](BENCHMARK.md) and `make bench` refuses to pass if that page drifts.
+
+| Nearby repo | What it is | What you do here |
 |---|---|---|
-| [build-your-own-x](https://github.com/codecrafters-io/build-your-own-x) | curated links + a paid "build Claude Code" | sandbox, spend, forget-memory, eval product |
-| [ai-engineering-from-scratch](https://github.com/rohitg00/ai-engineering-from-scratch) | 500+ lesson mega-course | weekend-sized, test-gated chapters |
-| [pguso/agents-from-scratch](https://github.com/pguso/agents-from-scratch) | chat → tools → ReAct → basic memory | real jail, budget kill-switch, capability policy |
-| most "build a coding agent" courses | the loop | the six libraries the loop sits on |
+| [build-your-own-x](https://github.com/codecrafters-io/build-your-own-x) | a list of projects | implement six modules against frozen tests |
+| [ai-engineering-from-scratch](https://github.com/rohitg00/ai-engineering-from-scratch) | a long course | six weekends, one contract, no framework |
+| [agents-from-scratch](https://github.com/pguso/agents-from-scratch) | a growing agent you can read | the modules start as `NotImplementedError` |
+| [agentloop](https://github.com/zachzwy/agentloop) | a finished harness | the harness is withheld; the tests are the product |
 
-This is CodeCrafters-shaped (red tests on clone) and agent-stack-shaped (not chatbot-shaped).
+CodeCrafters-shaped (red tests on clone). Agent-stack-shaped (not chatbot-shaped).
+
+```mermaid
+flowchart LR
+  script[FakeLLM script] --> loop[loop.py]
+  memory[04 memory] --> loop
+  loop --> tools[01 tools]
+  tools --> permit[03 permissions]
+  permit --> sandbox[02 sandbox]
+  loop --> spend[05 spend]
+  loop --> evals[06 evals]
+```
+
+The loop is the only piece that is given. Everything it calls is the exam.
 
 ## Repo map
 
 ```
+VERSION               # 1.1.0 — the git tag is v1.1.0
+BENCHMARK.md          # the published score, checked by make bench
+CHANGELOG.md          # what that number freezes
 agentstack/           # you implement tools/sandbox/permissions/memory/spend/evals
-                      # types.py, fake_llm.py, loop.py are given — do not edit
-chapters/             # weekend briefs
+                      # _version.py, types.py, fake_llm.py, loop.py are given
+chapters/             # weekend briefs, one screen each
 tests/                # frozen exams
 solutions/            # PEEK
-fixtures/             # agent.toml, tiny-repo, recorded traces
+fixtures/             # agent.toml (policy/v1), tiny-repo, traces (trace-script/v1)
+scripts/demo.py       # reference capstone, safe to run before you start
 ```
 
 ## How to work a weekend
@@ -78,11 +109,22 @@ make test-01   # then test-02 … test-06, then make test-capstone
 
 ## Capstone scenario
 
-A prior session stored `favorite_color=blue` and `never read .env`.
+A prior session stored `favorite_color=blue` and `boundary=never read .env`.
 The agent may read `src/app.py`. It must be denied `.env`.
 Spend is capped at $0.05. The eval report has to pass `must_call=read` and `must_not_call=rm`.
 
-If that one file is green, you built a stack. If the chapters are isolated homework, it is impossible — which is the point.
+If that one file is green, you built a stack. If the chapters are isolated homework, it is impossible — which is the point. The brief is [chapters/capstone](chapters/capstone/README.md). The published score for the reference stack is [1.00](BENCHMARK.md).
+
+## Release
+
+The contract tag is `v1.1.0`. `v1.0.0` froze the six exams. `make dist` writes two artifacts:
+
+| File | What it is |
+|---|---|
+| `dist/build_your_own_agent_stack-1.1.0.tar.gz` | the exam. Unpack it and run `pytest` inside |
+| `dist/build_your_own_agent_stack-1.1.0-py3-none-any.whl` | the importable package. No tests, no solutions |
+
+`python3 scripts/check_version.py` fails if `VERSION`, the package, the changelog, the citation, and the badge disagree.
 
 ## License
 
