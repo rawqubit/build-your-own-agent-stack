@@ -1,4 +1,4 @@
-.PHONY: install test test-01 test-02 test-03 test-04 test-05 test-06 test-capstone peek-check progress
+.PHONY: install test test-01 test-02 test-03 test-04 test-05 test-06 test-capstone peek-check progress demo ci
 
 install:
 	python3 -m pip install -e ".[dev]"
@@ -32,3 +32,10 @@ peek-check:
 
 progress:
 	python3 scripts/progress.py
+
+demo:
+	python3 scripts/demo.py
+
+ci:
+	python3 scripts/expect_red.py
+	AGENTSTACK_PEEK=1 python3 -m pytest
